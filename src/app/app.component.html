@@ -1,20 +1,50 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="header">Table with Pagination</div>
+<div class="mh10"> show <select class="mv20" [(ngModel)]="selectedRowCount" (ngModelChange)="changeRowCount($event)">
+    <option value="" disabled>Select</option>
+    <option [ngValue]="i" *ngFor="let i of rows">{{i}}</option>
+ </select> Entries </div>
+<div class="table_head hideScroll" #scrollOne>
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let item of headers" [ngStyle]="{'min-width': item.width}">{{item.title}}</th>
+      </tr>
+    </thead>
+  </table>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
+<div class="table_body" #scrollTwo (scroll)="updateScroll(scrollOne, scrollTwo)">
+  <table>
+    <tbody>
+      <tr *ngFor="let data of selectedRowData;">
+        <td style="min-width:100px"><button (click)="submitRow(data.id, data.status)" class="btn">Submit</button></td>
+        <td style="min-width:100px">{{data.id}}</td>
+        <td style="min-width:200px">{{data.name}}</td>
+        <td style="min-width:200px">{{data.phone}}</td>
+        <td>{{data.email}}</td>
+        <td>{{data.company}}</td>
+        <td>{{data.date_entry}}</td>
+        <td style="min-width:200px">{{data.org_num}}</td>
+        <td>{{data.address_1}}</td>
+        <td>{{data.city}}</td>
+        <td style="min-width:150px">{{data.zip}}</td>
+        <td>{{data.geo}}</td>
+        <td>{{data.pan}}</td>
+        <td style="min-width:150px">{{data.pin}}</td>
+        <td style="min-width:150px">{{data.status}}</td>
+        <td style="min-width:150px">{{data.fee}}</td>
+        <td>{{data.date_exit}}</td>
+        <td>{{data.date_first}}</td>
+        <td>{{data.date_recent}}</td>
+        <td>{{data.url}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="table_footer">
+  <div class="float_left" *ngIf="submittedID"> Last submitted: ID: {{submittedID}}, Status - {{submittedStatus}}</div>
+  <div class="float_right">
+    <span *ngFor="let index of numOfPages" class="page_num" 
+        [ngClass]="{'selected_page':selectedPage == index }"
+        (click)="loadPage(index)">{{index}}</span>
+  </div>
+</div>
